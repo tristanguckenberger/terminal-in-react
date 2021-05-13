@@ -77,7 +77,10 @@ class Terminal extends Component {
 
     this.defaultCommands = {
       // eslint-disable-line react/sort-comp
-      show: this.showMsg,
+      // show: {
+      //   method: () => null,
+      //   needsInstance: false,
+      // },
       clear: {
         method: this.clearScreen,
         needsInstance: true,
@@ -102,7 +105,7 @@ class Terminal extends Component {
     };
 
     this.defaultDesciptions = {
-      show: (props.msg && props.msg.length > 0) ? 'show the msg' : false,
+      // show: (props.msg && props.msg.length > 0) ? 'show the msg' : false,
       clear: 'clear the screen',
       help: 'list all the commands',
       echo: false,
@@ -292,14 +295,14 @@ class Terminal extends Component {
   // Set descriptions of the commands
   setDescriptions = () => {
     let descriptions = {
-      ...this.defaultDesciptions,
       ...this.props.descriptions,
+      ...this.defaultDesciptions,
     };
     pluginMap(this.props.plugins, (plugin) => {
       if (plugin.descriptions) {
         descriptions = {
-          ...descriptions,
           ...plugin.descriptions,
+          ...descriptions,
         };
       }
     });
@@ -821,6 +824,9 @@ class Terminal extends Component {
     if (input === '') {
       // do nothing
     } else if (command === undefined) {
+      console.log("input")
+      console.log(input)
+
       if (typeof this.props.commandPassThrough === 'function') {
         res = this.props.commandPassThrough(
           inputArray,
@@ -828,7 +834,7 @@ class Terminal extends Component {
           this.runCommand.bind(this, instance),
         );
       } else {
-        this.printLine.bind(this, instance)(`-bash:${input}: command not found`);
+        if (input !== 'show') this.printLine.bind(this, instance)(`${input}: command not found`);
       }
     } else {
       const parsedArgs = command.parse(args);
@@ -876,18 +882,20 @@ class Terminal extends Component {
 
   // List all the commands (state + user defined)
   showHelp = (args, printLine, runCommand, instance) => {
+    console.log("commands")
+    console.log(this.state.commands)
     let commands = { ...this.state.commands };
     let descriptions = { ...this.state.descriptions };
     const instanceData = this.state.instances.find(i => isEqual(i.instance, instance));
     if (instanceData) {
       Object.values(instanceData.pluginInstances).forEach((i) => {
         commands = {
-          ...commands,
           ...i.commands,
+          ...commands,
         };
         descriptions = {
-          ...descriptions,
           ...i.descriptions,
+          ...descriptions,
         };
       });
     }
@@ -902,11 +910,11 @@ class Terminal extends Component {
   };
 
   // Show the msg (prop msg)
-  showMsg = (args, printLine) => {
-    if (this.props.msg && this.props.msg.length > 0) {
-      printLine(this.props.msg);
-    }
-  };
+  // showMsg = (args, printLine) => {
+  //   if (this.props.msg && this.props.msg.length > 0) {
+  //     printLine(this.props.msg);
+  //   }
+  // };
 
   render() {
     const theme = {
@@ -923,6 +931,7 @@ class Terminal extends Component {
           className="terminal-base"
           fullscreen={this.state.maximise}
         >
+          {this.props.children}
           {this.getAppContent()}
         </Base>
       </ThemeProvider>

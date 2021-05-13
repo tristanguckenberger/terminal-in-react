@@ -152,6 +152,7 @@ class Content extends Component {
           ...(this.state.canScroll
             ? { overflowY: 'auto' }
             : { overflowY: 'hidden' }),
+            overflowX: 'hidden'
         }}
         tabIndex="0"
         onKeyUp={this.handleOuterKeypress}
@@ -168,6 +169,9 @@ class Content extends Component {
                   {this.state.promptPrefix + this.state.prompt}
                 </Prompt>
                 <MainInput
+                  style={{
+                    fontSize: '1em'
+                  }}
                   type="text"
                   tabIndex="-1"
                   innerRef={(com) => { this.com = com; }}
