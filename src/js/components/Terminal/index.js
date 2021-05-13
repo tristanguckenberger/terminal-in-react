@@ -233,7 +233,7 @@ class Terminal extends Component {
       color: color || 'green',
       animation: 'fadeIn 0.18s ease-in',
       fontFamily: "'Inconsolata', monospace",
-      fontSize: '0.9em',
+      fontSize: '16px',
     };
     // This should be a syled component but breaks if it is...
     return (

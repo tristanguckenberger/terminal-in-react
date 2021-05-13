@@ -170,7 +170,7 @@ class Content extends Component {
                 </Prompt>
                 <MainInput
                   style={{
-                    fontSize: '1em'
+                    fontSize: '16px'
                   }}
                   type="text"
                   tabIndex="-1"
