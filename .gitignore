@@ -29,11 +29,11 @@ build/Release
 node_modules/
 
 # Babel compiled sources
-lib/
-build/
+# lib/
+# build/
 
 # UMD distribution
-dist/
+# dist/
 
 # Miscellaneous
 *~
